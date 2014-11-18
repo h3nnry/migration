@@ -2,9 +2,9 @@
 
 class Migration{
 
-    //Old database connection parameters
+    //Parametrii conexiunii cu baza veche
     private static $connection_1 = array('host'=>'127.0.0.1', 'user'=>'root','pass'=>'1', 'dbname'=>'egov');
-    //New database connection parameters
+    //Parametrii conexiunii cu baza noua
     private static $connection_2 = array('host'=>'127.0.0.1', 'user'=>'root','pass'=>'1', 'dbname'=>'minimal');
 
     //Aici se defineste masivul cu tabelele pe care doriti sa le importati. In caz ca doriti sa importati toate tabelele, stergeti toate valorile din masiv
@@ -120,10 +120,6 @@ class Migration{
         return Migration::createNewConnection()->getAllTables();
     }
 
-    // public static function tableReturn(){
-    //     return self::$commonTables;
-    // }
-
     public static function selectInitialTables(){
         //self::$commonTables = Migration::tableReturn();
         if(count(self::$commonTables) == 0){
@@ -136,14 +132,10 @@ class Migration{
         foreach (self::$commonTables as $key => $value) {
             if(( count(array_diff($oldTableColumns = $oldDatabase->getTableColumns($value), $newTableColumns = $newDatabase->getTableColumns($value))) == 0 )) {
                 if(($value!='sys_ActionHistory'))
-                    // &($value!='tbl_NotificationStorage')&($value!='tbl_NotificationsJournal')
-                    // &($value!='tbl_NotificationStorage')&($value!='tbl_NotificationsJournal')&($value!='tbl_Report')&($value!='tbl_config_setting_value')&($value!='tbl_Article')&($value!='tbl_Comment')
-
                     self::$finalTables[] = $value;
             }
             else {
                 self::$differentColumns = array_diff($oldTableColumns = $oldDatabase->getTableColumns($value), $newTableColumns = $newDatabase->getTableColumns($value));
-                // die(var_dump($differentColumns));
                 foreach (self::$differentColumns as $key => $val1) {
                     self::$differentColumnsTables[$value][] = $val1;
                 }
@@ -281,11 +273,8 @@ class Migration{
                                             $buildFields .= ', '.'`'.$field.'`';
                                         }
                                     }
-                                }//if($table=='sys_Temporary_Break_Users') die(var_dump($buildFields));
+                                }
                             }
-//                            else {
-//                                $buildFields .= $fields;
-//                            }//if($table=='sys_Temporary_Break_Users') die(var_dump($buildFields));
                             self::$sqlInsert = 'INSERT INTO '.$table.' ('.$buildFields.') VALUES ';
                             $i++;
                         }
@@ -304,10 +293,10 @@ class Migration{
                 if(count($selectedData)!=0){
                     $my_file = 'Migration.log';
                     if($k == 0){
-                        $handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file);
+                        $handle = fopen($my_file, 'w') or die('Imposibil de deschis fisierul:  '.$my_file);
                     }
                     elseif($k!=0){
-                        $handle = fopen($my_file, 'a') or die('Cannot open file:  '.$my_file);
+                        $handle = fopen($my_file, 'a') or die('Imposibil de deschis fisierul:  '.$my_file);
                     }
                     $new_data = 'In tabela '.$table.' au fost inserate '.self::$contor.' inregistrari'."\n";
                     fwrite($handle, $new_data);
