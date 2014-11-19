@@ -64,7 +64,7 @@ class Migration{
         }
             // Prelucram erorile
         catch(PDOException $e){
-            print "Error!: " . $e->getMessage() . "<br/>";
+            print "Eroare!: " . $e->getMessage() . "<br/>";
             die();
         }
     }
@@ -175,7 +175,7 @@ class Migration{
         foreach (self::$commonTables as $keyTable => $table) {
 
             if($table != 'sys_ActionHistory'){
-                print_r("Inserted in ".$table."\n");
+                print_r("Au fost inserate datele in tabela ".$table."\n");
 
                 if((is_array(self::$oldNewFields)) && (count(self::$oldNewFields)>0) && (in_array($table, array_keys(self::$oldNewFields)))){
                     $selectDifferentName = array_keys(self::$oldNewFields[$table]);
