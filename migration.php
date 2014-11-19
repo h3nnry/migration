@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: h3nry
+ * Date: 11/15/14
+ * Time: 10:37 AM
+ */ 
 class Migration{
 
     //Parametrii conexiunii cu baza veche
